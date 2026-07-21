@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search Results | VIP Cleaning Services</title>
+    <style>
+      :root {
+        --bg: #f5f7fb;
+        --card: #ffffff;
+        --text: #1f2937;
+        --muted: #6b7280;
+        --accent: #2563eb;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #f8fbff 0%, #eef4ff 100%);
+        color: var(--text);
+        min-height: 100vh;
+        padding: 24px;
+      }
+      .page {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+      }
+      .topbar a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .search-wrap {
+        display: flex;
+        align-items: center;
+        border: 1px solid #d1d5db;
+        border-radius: 999px;
+        padding: 12px 16px;
+        background: #ffffff;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+      }
+      .search-wrap input {
+        border: none;
+        outline: none;
+        background: transparent;
+        flex: 1;
+        font-size: 1rem;
+        color: var(--text);
+      }
+      .search-wrap button {
+        margin-left: 12px;
+        border: none;
+        border-radius: 999px;
+        background: var(--accent);
+        color: white;
+        padding: 10px 16px;
+        cursor: pointer;
+      }
+      .card {
+        background: var(--card);
+        border-radius: 18px;
+        padding: 28px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      }
+      .results-grid {
+        display: grid;
+        gap: 16px;
+        margin-top: 20px;
+      }
+      .result-card {
+        text-decoration: none;
+        color: var(--text);
+        display: block;
+        padding: 18px 20px;
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        background: #f8fafc;
+      }
+      .result-card:hover {
+        border-color: var(--accent);
+        box-shadow: 0 8px 18px rgba(37, 99, 235, 0.1);
+      }
+      .result-card h3 {
+        margin: 0 0 6px;
+        font-size: 1.1rem;
+      }
+      .result-card p {
+        margin: 0;
+        color: var(--muted);
+      }
+      .badge {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 999px;
+        background: #eff6ff;
+        color: var(--accent);
+        font-size: 0.82rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+      .empty {
+        padding: 18px;
+        border-radius: 14px;
+        background: #fef2f2;
+        color: #991b1b;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="topbar">
+        <a href="index.html">← Back to home</a>
+        <form class="search-wrap" action="search-results.html" method="get">
+          <input id="searchInput" type="text" name="q" placeholder="Search services" aria-label="Search services" />
+          <button type="submit">Search</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h1 id="heading">Search results</h1>
+        <p id="summary">Showing services related to your search.</p>
+        <div id="results" class="results-grid"></div>
+      </div>
+    </div>
+
+    <script>
+      const services = [
+        {
+          title: 'Standard Cleaning',
+          description: 'Perfect for regular upkeep with everyday home and office care.',
+          url: 'services/standard-cleaning.html',
+          keywords: ['standard', 'regular', 'home', 'office', 'everyday', 'upkeep', 'clean']
+        },
+        {
+          title: 'End of Tenancy Cleaning',
+          description: 'A full move-in or move-out clean for landlords, tenants, and agents.',
+          url: 'services/end-of-tenancy-cleaning.html',
+          keywords: ['end', 'tenancy', 'move', 'move out', 'move in', 'rental', 'landlord', 'tenant', 'agent']
+        },
+        {
+          title: 'Commercial Cleaning',
+          description: 'Professional cleaning for offices, shops, and business premises.',
+          url: 'services/commercial-cleaning.html',
+          keywords: ['commercial', 'office', 'office cleaning', 'shop', 'business', 'business cleaning', 'company', 'premises', 'workplace', 'retail', 'workspace', 'corporate', 'commercial cleaning', 'business premises', 'office space']
+        },
+        {
+          title: 'Deep Cleaning',
+          description: 'A detailed, thorough clean for homes that need extra attention.',
+          url: 'services/deep-cleaning.html',
+          keywords: ['deep', 'detailed', 'thorough', 'extra', 'home', 'kitchen', 'bathroom', 'spring']
+        }
+      ];
+
+      const params = new URLSearchParams(window.location.search);
+      const query = (params.get('q') || '').trim().toLowerCase();
+      const heading = document.getElementById('heading');
+      const summary = document.getElementById('summary');
+      const results = document.getElementById('results');
+      const searchInput = document.getElementById('searchInput');
+
+      if (searchInput) {
+        searchInput.value = params.get('q') || '';
+      }
+
+      const normalizedQuery = query.toLowerCase();
+      const businessKeywords = ['business', 'business cleaning', 'company', 'corporate', 'office', 'workspace', 'office space', 'workplace', 'shop', 'retail', 'premises'];
+      const matchedServices = services.filter(service => {
+        const titleMatch = service.title.toLowerCase().includes(normalizedQuery);
+        const descriptionMatch = service.description.toLowerCase().includes(normalizedQuery);
+        const keywordMatch = service.keywords.some(keyword => normalizedQuery.includes(keyword));
+        const businessMatch = service.title === 'Commercial Cleaning' && businessKeywords.some(keyword => normalizedQuery.includes(keyword));
+        return titleMatch || descriptionMatch || keywordMatch || businessMatch;
+      });
+
+      if (!query) {
+        heading.textContent = 'All services';
+        summary.textContent = 'Showing all services we offer.';
+      } else if (matchedServices.length > 0) {
+        heading.textContent = `Results for “${query}”`;
+        summary.textContent = 'Here are the services that best match your search.';
+      } else {
+        heading.textContent = 'No matches found';
+        summary.textContent = 'Try a different keyword such as office, tenancy, deep, or home.';
+      }
+
+      if (matchedServices.length > 0) {
+        results.innerHTML = matchedServices.map(service => `
+          <a class="result-card" href="${service.url}">
+            <span class="badge">${service.title}</span>
+            <h3>${service.title}</h3>
+            <p>${service.description}</p>
+          </a>
+        `).join('');
+      } else if (query) {
+        results.innerHTML = '<div class="empty">No service matched your search. Please try another keyword.</div>';
+      } else {
+        results.innerHTML = services.map(service => `
+          <a class="result-card" href="${service.url}">
+            <span class="badge">${service.title}</span>
+            <h3>${service.title}</h3>
+            <p>${service.description}</p>
+          </a>
+        `).join('');
+      }
+    </script>
+  </body>
+</html>

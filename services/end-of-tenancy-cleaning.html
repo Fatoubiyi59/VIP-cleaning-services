@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>End of Tenancy Cleaning</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        color: #7c2d12;
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+        background: #0f172a;
+      }
+      body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background-image: url('https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1600&q=80');
+        background-size: cover;
+        background-position: center;
+        animation: bgSlide 20s infinite;
+        filter: blur(2px) brightness(0.55);
+        transform: scale(1.05);
+      }
+      body::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(15, 23, 42, 0.65), rgba(194, 65, 12, 0.2));
+      }
+      @keyframes bgSlide {
+        0%, 25% { background-image: url('https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1600&q=80'); }
+        26%, 50% { background-image: url('https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1600&q=80'); }
+        51%, 75% { background-image: url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=80'); }
+        76%, 100% { background-image: url('https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1600&q=80'); }
+      }
+      .image-bar {
+        display: flex;
+        gap: 12px;
+        overflow-x: auto;
+        padding: 16px;
+        background: linear-gradient(90deg, rgba(255, 237, 213, 0.9) 0%, rgba(253, 230, 138, 0.9) 100%);
+        position: relative;
+        z-index: 1;
+      }
+      .image-card {
+        min-width: 220px;
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+      }
+      .image-card img {
+        width: 100%;
+        height: 140px;
+        object-fit: cover;
+        display: block;
+      }
+      .image-card span {
+        display: block;
+        padding: 10px 12px;
+        font-weight: 600;
+      }
+      .content {
+        max-width: 900px;
+        margin: 24px auto;
+        background: rgba(255, 253, 249, 0.96);
+        padding: 28px;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(194, 65, 12, 0.12);
+        position: relative;
+        z-index: 1;
+      }
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: #6b7280;
+        text-decoration: none;
+        font-size: 0.95rem;
+        margin-bottom: 16px;
+      }
+      .back-link:hover {
+        color: #374151;
+      }
+      .back-arrow {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: #f3f4f6;
+        color: #374151;
+        font-size: 1rem;
+      }
+      .tag {
+        display: inline-block;
+        background: #ffedd5;
+        color: #c2410c;
+        padding: 6px 10px;
+        border-radius: 999px;
+        margin-bottom: 12px;
+        font-size: 0.9rem;
+      }
+      .price-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: #ea580c;
+        color: white;
+        font-weight: 700;
+        margin-left: 8px;
+        margin-bottom: 12px;
+      }
+      ul { line-height: 1.7; }
+      .booking-box {
+        margin-top: 24px;
+        padding: 16px 18px;
+        background: #fffaf3;
+        border: 1px solid #fed7aa;
+        border-radius: 12px;
+      }
+      .booking-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        margin-top: 10px;
+      }
+      .booking-btn {
+        display: inline-block;
+        text-decoration: none;
+        background: #c2410c;
+        color: white;
+        padding: 10px 16px;
+        border-radius: 999px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+      }
+      .phone-link {
+        color: #374151;
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .form-panel {
+        display: none;
+        margin-top: 12px;
+        padding: 16px;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        background: white;
+      }
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+      label {
+        display: block;
+        font-size: 0.95rem;
+        margin-bottom: 6px;
+        font-weight: 600;
+      }
+      input, textarea, select {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        font: inherit;
+      }
+      textarea { min-height: 90px; resize: vertical; }
+      .submit-row {
+        margin-top: 12px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .submit-btn {
+        background: #ea580c;
+        color: white;
+        border: none;
+        padding: 10px 14px;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      .success {
+        margin-top: 12px;
+        padding: 10px 12px;
+        background: #ecfdf3;
+        color: #047857;
+        border: 1px solid #a7f3d0;
+        border-radius: 8px;
+        display: none;
+      }
+      a { color: #2563eb; }
+    </style>
+  </head>
+  <body>
+    <script>
+      function handleBookingSubmit(event) {
+        event.preventDefault();
+
+        const form = event.target;
+        const formData = new FormData(form);
+        const fields = [
+          ['First Name', formData.get('First Name')],
+          ['Last Name', formData.get('Last Name')],
+          ['Email', formData.get('Email')],
+          ['Phone Number', formData.get('Phone Number')],
+          ['Service Type', formData.get('Service Type')],
+          ['Postcode', formData.get('Postcode')],
+          ['Street', formData.get('Street')],
+          ['House Number', formData.get('House Number')],
+          ['Place Type', formData.get('Place Type')],
+          ['Payment Method', formData.get('Payment Method')],
+          ['Hours of Service', formData.get('Hours of Service')],
+          ['Date', formData.get('Date')],
+          ['Time', formData.get('Time')],
+          ['Additional Information', formData.get('Additional Information')]
+        ];
+
+        const body = fields
+          .map(([label, value]) => `${label}: ${value || ''}`)
+          .join('\n');
+
+        const email = formData.get('Email') || '';
+        const to = 'info@vipcleaningservices.com';
+        const subject = encodeURIComponent('New booking request');
+        const mailto = `mailto:${to}${email ? `?cc=${encodeURIComponent(email)}` : '?'}subject=${subject}&body=${encodeURIComponent(body)}`;
+
+        window.location.href = mailto;
+        document.getElementById('success-message').style.display = 'block';
+        form.reset();
+      }
+    </script>
+
+    <div class="image-bar" aria-label="Homes and offices being cleaned">
+      <div class="image-card">
+        <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=800&q=80" alt="A fully cleaned living room ready for handover" />
+        <span>Move-out Ready Living Room</span>
+      </div>
+      <div class="image-card">
+        <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=800&q=80" alt="A professionally cleaned kitchen and bathroom" />
+        <span>Kitchen & Bathroom Reset</span>
+      </div>
+      <div class="image-card">
+        <img src="https://images.unsplash.com/photo-1460317442991-0ec209397118?auto=format&fit=crop&w=800&q=80" alt="A fresh bedroom after end of tenancy cleaning" />
+        <span>Bedrooms & Living Areas</span>
+      </div>
+      <div class="image-card">
+        <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80" alt="A polished rental property after a deep clean" />
+        <span>Rental Property Finish</span>
+      </div>
+    </div>
+
+    <div class="content">
+      <a class="back-link" href="../index.html" aria-label="Back to home page">
+        <span class="back-arrow">←</span>
+        <span>back to home page</span>
+      </a>
+      <div style="display:flex; align-items:center; flex-wrap:wrap; gap:8px;">
+        <span class="tag">End of Tenancy Cleaning</span>
+        <span class="price-badge">£95/hr</span>
+      </div>
+      <h1>Move-in or move-out cleaning done properly</h1>
+      <p>We provide a comprehensive end of tenancy clean for landlords, tenants, and letting agents to leave properties spotless and ready for handover.</p>
+      <h2>What’s included</h2>
+      <ul>
+        <li>Full kitchen and bathroom sanitising</li>
+        <li>Dusting, wiping, and polishing all surfaces</li>
+        <li>Vacuuming and mopping throughout</li>
+        <li>Internal window and skirting board attention</li>
+      </ul>
+
+      <div class="booking-box">
+        <strong>Book your end of tenancy clean</strong>
+        <div class="booking-actions">
+          <button class="booking-btn" type="button" onclick="document.querySelector('.form-panel').style.display='block'">Book now online</button>
+          <a class="phone-link" href="tel:07359590959">07359590959</a>
+          <span>or</span>
+          <a class="phone-link" href="tel:07927815430">07927815430</a>
+        </div>
+
+        <form class="form-panel" onsubmit="handleBookingSubmit(event)">
+          <div class="form-grid">
+            <div>
+              <label for="first-name">First name</label>
+              <input id="first-name" name="First Name" type="text" required />
+            </div>
+            <div>
+              <label for="last-name">Last name</label>
+              <input id="last-name" name="Last Name" type="text" required />
+            </div>
+            <div>
+              <label for="email">Email address</label>
+              <input id="email" name="Email" type="email" required />
+            </div>
+            <div>
+              <label for="phone">Phone number</label>
+              <input id="phone" name="Phone Number" type="tel" required />
+            </div>
+            <div>
+              <label for="service-type">Extra services (optional)</label>
+              <select id="service-type" name="Service Type">
+                <option>No extra service</option>
+                <option>Ironing + £10</option>
+                <option>Organisation + £10</option>
+                <option>Ironing and Organisation + £20</option>
+              </select>
+            </div>
+            <div>
+              <label for="postcode">Postcode</label>
+              <input id="postcode" name="Postcode" type="text" required />
+            </div>
+            <div>
+              <label for="street">Street</label>
+              <input id="street" name="Street" type="text" required />
+            </div>
+            <div>
+              <label for="house-number">House number</label>
+              <input id="house-number" name="House Number" type="text" required />
+            </div>
+            <div>
+              <label for="place-type">Place type</label>
+              <input id="place-type" name="Place Type" type="text" required />
+            </div>
+            <div>
+              <label for="payment-method">Payment method</label>
+              <select id="payment-method" name="Payment Method">
+                <option>Cash</option>
+                <option>Card</option>
+                <option>Bank transfer</option>
+              </select>
+            </div>
+            <div>
+              <label for="hours">Hours of service</label>
+              <input id="hours" name="Hours of Service" type="number" min="1" required />
+            </div>
+            <div>
+              <label for="date">Date</label>
+              <input id="date" name="Date" type="date" required />
+            </div>
+            <div>
+              <label for="time">Time</label>
+              <input id="time" name="Time" type="time" required />
+            </div>
+            <div style="grid-column: 1 / -1;">
+              <label for="info">Additional information</label>
+              <textarea id="info" name="Additional Information"></textarea>
+            </div>
+          </div>
+
+          <div class="submit-row">
+            <button class="submit-btn" type="submit">Send booking request</button>
+          </div>
+        </form>
+
+        <div class="success" id="success-message">Thanks! Your booking request has been prepared for email.</div>
+      </div>
+    </div>
+  </body>
+</html>

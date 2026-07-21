@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VIP Cleaning Services</title>
+    <style>
+      :root {
+        --bg: #f5f7fb;
+        --card: #ffffff;
+        --text: #1f2937;
+        --muted: #6b7280;
+        --accent: #2563eb;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        color: var(--text);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        position: relative;
+        overflow: hidden;
+        background: #0f172a;
+      }
+      body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background-image: url('https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1600&q=80');
+        background-size: cover;
+        background-position: center;
+        animation: bgSlide 20s infinite;
+        filter: blur(2px) brightness(0.55);
+        transform: scale(1.05);
+      }
+      body::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(15, 23, 42, 0.65), rgba(37, 99, 235, 0.25));
+      }
+      @keyframes bgSlide {
+        0%, 25% { background-image: url('https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1600&q=80'); }
+        26%, 50% { background-image: url('https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1600&q=80'); }
+        51%, 75% { background-image: url('https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1600&q=80'); }
+        76%, 100% { background-image: url('https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1600&q=80'); }
+      }
+      .card {
+        width: 100%;
+        max-width: 760px;
+        background: rgba(255,255,255,0.96);
+        border-radius: 18px;
+        padding: 32px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.16);
+        position: relative;
+        z-index: 1;
+      }
+      h1 { margin: 0 0 8px; font-size: 2rem; }
+      p { margin: 0 0 20px; color: var(--muted); }
+      .search-wrap {
+        display: flex;
+        align-items: center;
+        border: 1px solid #d1d5db;
+        border-radius: 999px;
+        padding: 12px 16px;
+        background: #f9fafb;
+      }
+      .search-wrap input {
+        border: none;
+        outline: none;
+        background: transparent;
+        flex: 1;
+        font-size: 1rem;
+        color: var(--text);
+      }
+      .search-wrap input::placeholder { color: #9ca3af; }
+      .search-wrap button {
+        margin-left: 12px;
+        border: none;
+        border-radius: 999px;
+        background: var(--accent);
+        color: white;
+        padding: 10px 16px;
+        cursor: pointer;
+      }
+      .service-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+        margin-top: 20px;
+      }
+      .service-card {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: var(--text);
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        padding: 16px;
+      }
+      .service-card.highlight { border: 2px solid var(--accent); background: #eff6ff; }
+      .service-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: white;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+      }
+      .service-price {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 72px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: #dc2626;
+        color: white;
+        font-size: 0.85rem;
+        font-weight: 700;
+        margin-left: 8px;
+        flex-shrink: 0;
+      }
+      .service-card h3 { margin: 0 0 6px; font-size: 1.05rem; }
+      .service-card p { margin: 0; color: #4b5563; }
+      .contact-strip {
+        margin-top: 18px;
+        padding: 12px 14px;
+        border-radius: 12px;
+        background: rgba(248, 250, 252, 0.8);
+        border: 1px solid rgba(226, 232, 240, 0.9);
+        color: #475569;
+        font-size: 0.95rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+        justify-content: center;
+      }
+      .contact-strip strong {
+        color: #334155;
+      }
+      .contact-strip a {
+        color: #2563eb;
+        text-decoration: none;
+      }
+      @media (max-width: 600px) {
+        .service-grid { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>VIP Cleaning Services</h1>
+      <p>Find the right service for your home or business.</p>
+
+      <form class="search-wrap" action="search-results.html" method="get">
+        <input type="text" name="q" placeholder="different services" aria-label="Search services" />
+        <button type="submit">Search</button>
+      </form>
+
+      <div class="service-grid" aria-label="Main services">
+        <a class="service-card highlight" href="services/standard-cleaning.html">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span class="service-icon">🧹</span>
+            <span class="service-price">£20/hr</span>
+          </div>
+          <div>
+            <h3>Standard Cleaning</h3>
+            <p>Perfect for regular upkeep</p>
+          </div>
+        </a>
+        <a class="service-card" href="services/end-of-tenancy-cleaning.html">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span class="service-icon">🏠</span>
+            <span class="service-price">£95/hr</span>
+          </div>
+          <div>
+            <h3>End of Tenancy Cleaning</h3>
+            <p>Move in / move out stress free</p>
+          </div>
+        </a>
+        <a class="service-card" href="services/commercial-cleaning.html">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span class="service-icon">🏢</span>
+            <span class="service-price">£30/hr</span>
+          </div>
+          <div>
+            <h3>Commercial Cleaning</h3>
+            <p>Offices, shops & business premises</p>
+          </div>
+        </a>
+        <a class="service-card" href="services/deep-cleaning.html">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span class="service-icon">✨</span>
+            <span class="service-price">£35/hr</span>
+          </div>
+          <div>
+            <h3>Deep Cleaning</h3>
+            <p>For a fresh, detailed finish</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="contact-strip">
+        <strong>Company contact</strong>
+        <a href="mailto:info@vipcleaningservices.com">info@vipcleaningservices.com</a>
+        <span>07359590959</span>
+        <span>07927815430</span>
+      </div>
+    </div>
+  </body>
+</html>
